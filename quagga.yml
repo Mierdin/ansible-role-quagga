@@ -1,0 +1,7 @@
+---
+- name: Install and configure Quagga
+  hosts: linuxrouters
+  sudo: yes
+  gather_facts: yes
+  roles:
+     - quagga
