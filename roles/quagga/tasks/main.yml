@@ -6,15 +6,6 @@
     apt: pkg={{ quaggaserver }} state=latest
     when: ansible_os_family == 'Debian'
 
-  - name: Enable IPv4 and IPv6 Routing
-    raw: "{{ item }}"
-    with_items:
-        - echo "net.ipv4.conf.all.forwarding=1" | sudo tee -a /etc/sysctl.conf 
-        - echo "net.ipv4.conf.default.forwarding=1" | sudo tee -a /etc/sysctl.conf 
-        - "sed 's/#net.ipv6.conf.all.forwarding=1/net.ipv6.conf.all.forwarding=1/g' /etc/sysctl.conf | sudo tee /etc/sysctl.conf" 
-        - echo "net.ipv6.conf.default.forwarding=1" | sudo tee -a /etc/sysctl.conf 
-        - sudo sysctl -p 
-
   - name: Create config files
     template: src={{ item.name }}.j2 dest=/etc/quagga/{{ item.name }}
     with_items: conffiles
